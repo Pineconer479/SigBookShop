@@ -69,22 +69,22 @@ public class POSView {
 
     private Button buildItemTile(Item item) {
         Label iconLabel = new Label(item.getIcon());
-        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
+        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
 
         Label nameLabel = new Label(item.getName());
         nameLabel.setWrapText(true);
-        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 13));
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 23));
 
         Label descLabel = new Label(item.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setFont(Font.font("System",FontWeight.BOLD, 11));
+        descLabel.setFont(Font.font("System",FontWeight.BOLD, 21));
         descLabel.setTextFill(Color.GRAY);
 
         Label priceLabel = new Label(String.format("$%.2f", item.getPrice()));
-        priceLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
+        priceLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
 
         Label stockLabel = new Label(item.getStock() <= 0 ? "Out of stock" : "Stock: " + item.getStock());
-        stockLabel.setFont(Font.font("System", FontWeight.BOLD, 10));
+        stockLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
         stockLabel.setTextFill(item.getStock() <= 0 ? Color.CRIMSON : Color.DARKGREEN);
 
         VBox content = new VBox(4, iconLabel, nameLabel, descLabel, priceLabel, stockLabel);
@@ -92,7 +92,7 @@ public class POSView {
 
         Button tile = new Button();
         tile.setGraphic(content);
-        tile.setPrefSize(160, 130);
+        tile.setPrefSize(245, 270);
         tile.setWrapText(true);
         tile.setDisable(item.getStock() <= 0);
         tile.setOnAction(e -> addToCart(item));
@@ -100,7 +100,7 @@ public class POSView {
     }
     private VBox buildCartPanel() {
         Label cartHeading = new Label("Current Sale");
-        cartHeading.setFont(Font.font("System", FontWeight.BOLD, 18));
+        cartHeading.setFont(Font.font("System", FontWeight.BOLD, 28));
 
         cartListView.setCellFactory(lv -> new CartLineCell());
         cartListView.setPrefHeight(360);

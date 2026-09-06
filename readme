@@ -1,0 +1,38 @@
+BookShop POS Details:
+
+This is a simplified POS for bookshop owners to easily keep track of stock levels and sales. The plan is to implement a printing function for on the spot receipts to avoid having to manually write down the customer's order.
+There will be a feature to be able to pull the days total sales to then send to the finance manager.
+
+Later down the line the EFTPOS sale functionality will also hopefully be functional.
+
+
+
+
+
+
+
+
+
+Roadmap
+
+Item Admin Screen - Add/edit/delete items and adjust stock through the UI, using the skeleton and ItemDao stubs just provided.
+ This unblocks entering your real catalog instead of editing SQL by hand.
+
+Sales History / Retrieval Screen - A screen listing past sales for a given day,
+drilling into each one's line items. Reuses the same TableView pattern as the item admin screen, so it's good next practice.
+
+Receipt Printer Output - Pick a specific USB ESC/POS thermal printer model (e.g. Epson TM-T20III),
+then integrate a library like JavaPOS or a plain ESC/POS command sender to print itemized receipts with GST breakdown on checkout.
+
+Stocktake Tool - A daily stock count screen: enter counted quantities,
+compare against system stock, and an override to redo the count if needed.
+Consider allowing a second count for safety as the manager requested.
+
+End of Day Summary - Generate a PDF of the day's total sales and email it automatically to the business/store manager.
+ Needs a PDF library (e.g. OpenPDF) and an email library (JavaMail) with SMTP details for whichever email account will send it.
+
+Real EFTPOS Integration - Once a payment provider/terminal is chosen (e.g. Tyro, Windcave),
+integrate their SDK so checkout triggers an actual terminal transaction instead of just marking payment method manually.
+
+Final Polishing and handover - Error handling for edge cases, a backup strategy for the database file,
+and packaging the app as a proper installable (e.g. via jpackage) so user can launch it without opening IntelliJ or a terminal.

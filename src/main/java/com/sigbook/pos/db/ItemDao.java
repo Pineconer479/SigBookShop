@@ -15,7 +15,7 @@ public class ItemDao {
         List<Item> items = new ArrayList<>();
         String sql = "SELECT id, name, description, icon, price, stock FROM items ORDER BY name";
         try (Statement st = Database.get().createStatement();
-            ResultSet rs = st.executeQuery(sql)) {
+             ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 items.add(new Item(
                         rs.getInt("id"),
@@ -31,6 +31,7 @@ public class ItemDao {
         }
         return items;
     }
+
     public void decrementStock(int itemId, int quantity) {
         String sql = "UPDATE items SET stock = stock - ? WHERE id = ?";
         try (PreparedStatement ps = Database.get().prepareStatement(sql)) {
@@ -41,12 +42,16 @@ public class ItemDao {
             throw new RuntimeException("Failed to update stock: " + e.getMessage(), e);
         }
     }
-    /*blic void setStock(int itemId, int newStock) {
-        String sql = "UPDATE items SET stock = ? WHERE id = ?";}
-        try (PreparedStatement ps = Database.get().preparedStatement(sql)) {
-        ps.setInt(1, newStock);
-        ps.setInt(2, itemId);
-        ps.executeUpdate();
-    } catch (SQLException e) {
-        throw new RuntimeException("Failed to set stock: " + e.getMessage(), e);*/
+
+    public void setStock(int itemId, int newStock) {
+        String sql = "UPDATE items SET stock = ? WHERE id = ?";
+        try (PreparedStatement ps = Database.get().prepareStatement(sql)) {
+            ps.setInt(1, newStock);
+            ps.setInt(2, itemId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to set stock: " + e.getMessage(), e);
+        }
+    }
+
 }

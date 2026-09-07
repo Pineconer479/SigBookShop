@@ -71,15 +71,15 @@ public class POSView {
 
     private Button buildItemTile(Item item) {
         Label iconLabel = new Label(item.getIcon());
-        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
+        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
 
         Label nameLabel = new Label(item.getName());
         nameLabel.setWrapText(true);
-        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 23));
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
 
         Label descLabel = new Label(item.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setFont(Font.font("System",FontWeight.BOLD, 21));
+        descLabel.setFont(Font.font("System",FontWeight.BOLD, 13));
         descLabel.setTextFill(Color.GRAY);
 
         Label priceLabel = new Label(String.format("$%.2f", item.getPrice()));
@@ -94,7 +94,7 @@ public class POSView {
 
         Button tile = new Button();
         tile.setGraphic(content);
-        tile.setPrefSize(245, 270);
+        tile.setPrefSize(170, 180);
         tile.setWrapText(true);
         tile.setDisable(item.getStock() <= 0);
         tile.setOnAction(e -> addToCart(item));
@@ -111,7 +111,7 @@ public class POSView {
         totalsBox.setAlignment(Pos.CENTER_RIGHT);
         VBox totalsText = new VBox(2);
         Label totalTitle = new Label("Total");
-        totalTitle.setFont(Font.font("System", FontWeight.BOLD, 16));
+        totalTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
         totalLabel.setFont(Font.font("System", FontWeight.BOLD, 22));
         gstLabel.setFont(Font.font("System, 11"));
         gstLabel.setTextFill(Color.GRAY);
@@ -227,13 +227,14 @@ public class POSView {
             }
 
             Label name = new Label(line.getItem().getName());
-            name.setFont(Font.font("System", FontWeight.BOLD, 12));
+            name.setFont(Font.font("System", FontWeight.BOLD, 16));
             name.setPrefWidth(130);
             name.setWrapText(true);
 
             Button minus = new Button("-");
             Button plus = new Button("+");
             Label qty = new Label(String.valueOf(line.getQuantity()));
+            qty.setFont(Font.font(16));
             qty.setPrefWidth(20);
             qty.setAlignment(Pos.CENTER);
 
@@ -256,6 +257,7 @@ public class POSView {
                 updateTotals();
             });
             Label lineTotal = new Label(String.format("$%.2f", line.getLineTotal()));
+            lineTotal.setFont(Font.font(16));
             lineTotal.setPrefWidth(60);
             lineTotal.setAlignment(Pos.CENTER_RIGHT);
 

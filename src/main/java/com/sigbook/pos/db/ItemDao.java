@@ -56,15 +56,31 @@ public class ItemDao {
 
     /** Adds a new item to the catalog. Returns the generated id. */
     public int insert(String name, String description, String icon, double price, int stock) {
-        // TODO: INSERT INTO items (...) VALUES (...)
-        //       use Statement.RETURN_GENERATED_KEYS to get the new id back,
-        //       same pattern as SaleDao.recordSale() uses for the sale id
-        return -1;
+
+        String sql = "INSERT INTO items (name, description, icon, price, stock) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = Database.get().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            ps.setString(2, description);
+            ps.setString(3, icon);
+            ps.setDouble(4, price);
+            ps.setInt(5, stock);
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    return keys.getInt(1);
+                }
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to insert item: " + e.getMessage(), e);
+        }
     }
 
     /** Updates an existing item's details. */
     public void update(int itemId, String name, String description, String icon, double price, int stock) {
         // TODO: UPDATE items SET name = ?, description = ?, icon = ?, price = ?, stock = ? WHERE id = ?
+
+
     }
 
     /** Removes an item from the catalog entirely. */

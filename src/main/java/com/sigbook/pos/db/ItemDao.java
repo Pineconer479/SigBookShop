@@ -78,17 +78,32 @@ public class ItemDao {
 
     /** Updates an existing item's details. */
     public void update(int itemId, String name, String description, String icon, double price, int stock) {
-        // TODO: UPDATE items SET name = ?, description = ?, icon = ?, price = ?, stock = ? WHERE id = ?
 
+        String sql = "UPDATE items SET name = ?, description = ?, icon = ?, price = ?, stock = ? WHERE id = ?";
+        try (PreparedStatement ps = Database.get().prepareStatement(sql)) {
+             ps.setString(1, name);
+             ps.setString(2, description);
+             ps.setString(3, icon);
+             ps.setDouble(4, price);
+             ps.setInt(5, stock);
+             ps.setInt(6, itemId);
+             ps.executeUpdate();
+             } catch (SQLException e) {
 
+            throw new RuntimeException("Failed to update stock: " + e.getMessage(), e);
+        }
     }
 
     /** Removes an item from the catalog entirely. */
     public void delete(int itemId) {
-        // TODO: DELETE FROM items WHERE id = ?
-        // Note: consider whether you want a "hard delete" or to just mark items
-        // inactive (add an `active` column) so old sales history referencing
-        // this item id still makes sense if you ever join back to it.
+
+               String sql = "DELETE FROM items WHERE id = ?";
+        try (PreparedStatement ps = Database.get().prepareStatement(sql)) {
+            ps.setInt(1, itemId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to remove item: " + e.getMessage(), e);
+        }
     }
 
 }

@@ -56,7 +56,9 @@ public class POSView {
         BorderPane.setMargin(cartPanel, new Insets(0, 0, 0, 16));
         root.setRight(cartPanel);
 
-        return new Scene(root, 950, 640);
+        //Set maximised
+        stage.setMaximized(true);
+        return new Scene(root);
     }
 
     private void refreshItemGrid(){

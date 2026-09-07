@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class ItemAdminView {
 
-    private final ItemDao itemDao = new ItemDao();
+  /*  private final ItemDao itemDao = new ItemDao();
     private final ObservableList<Item> items = FXCollections.observableArrayList();
     private final TableView<Item> table = new TableView<>(items);
 
@@ -20,7 +20,7 @@ public class ItemAdminView {
     private final TextField descriptionField = new TextField();
     private final TextField iconField = new TextField();
     private final TextField priceField = new TextField();
-    private final TextField stockField = new TextField();
+    private final TextField stockField = new TextField(); */
 
     private Item selectedItem; // null = "add new" mode, non-null = "editing this item"
 
@@ -46,7 +46,7 @@ public class ItemAdminView {
     }
 
     private void refreshTable() {
-        items.setAll(itemDao.findAll());
+        //items.setAll(itemDao.findAll());
     }
 
     private void onSaveClicked() {

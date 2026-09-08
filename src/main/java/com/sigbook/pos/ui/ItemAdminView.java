@@ -4,14 +4,19 @@ import com.sigbook.pos.db.ItemDao;
 import com.sigbook.pos.model.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
 public class ItemAdminView {
 
-  /*  private final ItemDao itemDao = new ItemDao();
+    private final ItemDao itemDao = new ItemDao();
     private final ObservableList<Item> items = FXCollections.observableArrayList();
     private final TableView<Item> table = new TableView<>(items);
 
@@ -20,7 +25,7 @@ public class ItemAdminView {
     private final TextField descriptionField = new TextField();
     private final TextField iconField = new TextField();
     private final TextField priceField = new TextField();
-    private final TextField stockField = new TextField(); */
+    private final TextField stockField = new TextField();
 
     private Item selectedItem; // null = "add new" mode, non-null = "editing this item"
 
@@ -37,16 +42,28 @@ public class ItemAdminView {
 
         // TODO: wire table selection -> populate form fields for editing
         //       hint: table.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> { ... })
+        root.setPadding(new Insets(16));
+
+        Label heading = new Label("Sig Bookshop POS");
+        heading.setFont(Font.font("System", FontWeight.BOLD, 20));
+        BorderPane.setMargin(heading, new Insets(0, 0, 12, 0));
+        root.setTop(heading);
+
 
         refreshTable();
 
+
+
         // TODO: assemble root layout (table on one side, form on the other)
 
-        return new Scene(root, 700, 500);
+
+        //Set maximised
+        stage.setMaximized(true);
+        return new Scene(root);
     }
 
     private void refreshTable() {
-        //items.setAll(itemDao.findAll());
+        items.setAll(itemDao.findAll());
     }
 
     private void onSaveClicked() {
@@ -55,6 +72,8 @@ public class ItemAdminView {
         // TODO: if selectedItem == null -> call itemDao.insert(...)
         //       else -> call itemDao.update(selectedItem.getId(), ...)
         // TODO: refreshTable() and clearForm() afterwards
+
+
     }
 
     private void onDeleteClicked() {

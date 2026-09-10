@@ -5,13 +5,19 @@ import com.sigbook.pos.model.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
 
 
 public class ItemAdminView {
@@ -31,31 +37,37 @@ public class ItemAdminView {
 
     public Scene createScene(Stage stage) {
         BorderPane root = new BorderPane();
-
-        // TODO: build the TableView columns (name, description, price, stock)
-        //       hint: TableColumn<Item, String> nameCol = new TableColumn<>("Name");
-        //             nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //       (PropertyValueFactory needs matching getX() methods on Item - you have those already)
-
-        // TODO: build the form (VBox of labeled TextFields) for add/edit,
-        //       plus Save / Delete / Clear buttons
-
-        // TODO: wire table selection -> populate form fields for editing
-        //       hint: table.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> { ... })
         root.setPadding(new Insets(16));
 
-        Label heading = new Label("Sig Bookshop POS");
+        //Toolbar
+        Button addBtn = new Button ("Add Item");
+        Button deleteBtn = new Button("Delete Selected");
+        Button backBtn = new Button("Back to POS");
+
+        //Empty region
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox toolbar = new HBox(10, addBtn, deleteBtn, spacer, backBtn);
+        toolbar.setAlignment(Pos.CENTER_LEFT);
+        toolbar.setPadding(new Insets(0, 0, 12, 0));
+
+        Label heading = new Label("Admin Menu");
         heading.setFont(Font.font("System", FontWeight.BOLD, 20));
         BorderPane.setMargin(heading, new Insets(0, 0, 12, 0));
-        root.setTop(heading);
+
+        VBox topSection = new VBox(8, heading, toolbar);
+        root.setTop(topSection);
+
+        root.setPadding(new Insets(16));
+
+
+
+
 
 
         refreshTable();
-
-
-
-        // TODO: assemble root layout (table on one side, form on the other)
-
 
         //Set maximised
         stage.setMaximized(true);

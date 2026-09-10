@@ -33,16 +33,22 @@ public class ItemAdminView {
     private final TextField priceField = new TextField();
     private final TextField stockField = new TextField();
 
+
     private Item selectedItem; // null = "add new" mode, non-null = "editing this item"
+    private Stage stage;
 
     public Scene createScene(Stage stage) {
+        this.stage = stage;
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(16));
 
         //Toolbar
         Button addBtn = new Button ("Add Item");
+
         Button deleteBtn = new Button("Delete Selected");
+
         Button backBtn = new Button("Back to POS");
+        backBtn.setOnAction(e -> onBackClicked());
 
         //Empty region
 
@@ -63,10 +69,6 @@ public class ItemAdminView {
         root.setPadding(new Insets(16));
 
 
-
-
-
-
         refreshTable();
 
         //Set maximised
@@ -76,6 +78,10 @@ public class ItemAdminView {
 
     private void refreshTable() {
         items.setAll(itemDao.findAll());
+    }
+    private void onBackClicked() {
+        POSView posView = new POSView();
+        stage.setScene(posView.createScene(stage));
     }
 
     private void onSaveClicked() {

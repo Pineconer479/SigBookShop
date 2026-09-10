@@ -30,14 +30,29 @@ public class POSView {
     private final Label gstLabel = new Label("Includes GST: $0.00");
     private final FlowPane itemGrid = new FlowPane();
 
+    private Stage stage;
+
     public Scene createScene(Stage stage) {
+        this.stage = stage;
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(16));
+
+
+
+        // Toolbar
+        Button adminBtn = new Button ("Admin");
+        adminBtn.setOnAction(e -> onAdminClicked());
+
+        HBox toolbar = new HBox( 10, adminBtn);
+        toolbar.setAlignment(Pos.CENTER_LEFT);
+        toolbar.setPadding(new Insets(0, 0, 12, 0));
 
         Label heading = new Label("Sig Bookshop POS");
         heading.setFont(Font.font("System", FontWeight.BOLD, 20));
         BorderPane.setMargin(heading, new Insets(0, 0, 12, 0));
-        root.setTop(heading);
+
+        VBox topSection = new VBox(8, heading, toolbar);
+        root.setTop(topSection);
 
         //item grid
         itemGrid.setHgap(12);
@@ -61,12 +76,17 @@ public class POSView {
         return new Scene(root);
     }
 
+
     private void refreshItemGrid(){
         itemGrid.getChildren().clear();
         List<Item> items = itemDao.findAll();
         for (Item item : items) {
             itemGrid.getChildren().add(buildItemTile(item));
         }
+    }
+    private void onAdminClicked() {
+        ItemAdminView itemAdminView = new ItemAdminView();
+        stage.setScene(itemAdminView.createScene(stage));
     }
 
     private Button buildItemTile(Item item) {

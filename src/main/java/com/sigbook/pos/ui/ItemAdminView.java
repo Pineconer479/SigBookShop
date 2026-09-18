@@ -14,10 +14,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.List;
 
 
 public class ItemAdminView {
@@ -32,6 +34,7 @@ public class ItemAdminView {
     private final TextField iconField = new TextField();
     private final TextField priceField = new TextField();
     private final TextField stockField = new TextField();
+    private final FlowPane itemGrid = new FlowPane();
 
 
     private Item selectedItem; // null = "add new" mode, non-null = "editing this item"
@@ -55,7 +58,9 @@ public class ItemAdminView {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolbar = new HBox(10, addBtn, deleteBtn, spacer, backBtn);
+        Button saveChanges = new Button ("Save");
+
+        HBox toolbar = new HBox(10, backBtn, addBtn, deleteBtn, spacer, saveChanges);
         toolbar.setAlignment(Pos.CENTER_LEFT);
         toolbar.setPadding(new Insets(0, 0, 12, 0));
 
@@ -70,6 +75,15 @@ public class ItemAdminView {
 
 
         refreshTable();
+        //item grid
+        itemGrid.setHgap(12);
+        itemGrid.setVgap(12);
+        ScrollPane itemScroll = new ScrollPane(itemGrid);
+        itemScroll.setFitToWidth(true);
+        itemScroll.setPrefWidth(560);
+
+        root.setCenter(itemScroll);
+        refreshItemGrid();
 
         //Set maximised
         stage.setMaximized(true);
@@ -82,6 +96,43 @@ public class ItemAdminView {
     private void onBackClicked() {
         POSView posView = new POSView();
         stage.setScene(posView.createScene(stage));
+    }
+    private void refreshItemGrid(){
+        itemGrid.getChildren().clear();
+        List<Item> items = itemDao.findAll();
+        for (Item item : items) {
+            itemGrid.getChildren().add(buildItemTile(item));
+        }
+    }
+    private Button buildItemTile(Item item) {
+        Label iconLabel = new Label(item.getIcon());
+        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+
+        Label nameLabel = new Label(item.getName());
+        nameLabel.setWrapText(true);
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+
+        Label descLabel = new Label(item.getDescription());
+        descLabel.setWrapText(true);
+        descLabel.setFont(Font.font("System",FontWeight.BOLD, 13));
+        descLabel.setTextFill(Color.GRAY);
+
+        Label priceLabel = new Label(String.format("$%.2f", item.getPrice()));
+        priceLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
+
+        Label stockLabel = new Label(item.getStock() <= 0 ? "Out of stock" : "Stock: " + item.getStock());
+        stockLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
+        stockLabel.setTextFill(item.getStock() <= 0 ? Color.CRIMSON : Color.DARKGREEN);
+
+        VBox content = new VBox(4, iconLabel, nameLabel, descLabel, priceLabel, stockLabel);
+        content.setAlignment(Pos.TOP_LEFT);
+
+        Button tile = new Button();
+        tile.setGraphic(content);
+        tile.setPrefSize(170, 180);
+        tile.setWrapText(true);
+        tile.setDisable(item.getStock() <= 0);
+        return tile;
     }
 
     private void onSaveClicked() {

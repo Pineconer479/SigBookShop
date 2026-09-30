@@ -67,7 +67,7 @@ public class POSView {
 
         //Cart panel
         VBox cartPanel = buildCartPanel();
-        cartPanel.setPrefWidth(340);
+        cartPanel.setPrefWidth(620);
         BorderPane.setMargin(cartPanel, new Insets(0, 0, 0, 16));
         root.setRight(cartPanel);
 
@@ -91,15 +91,15 @@ public class POSView {
 
     private Button buildItemTile(Item item) {
         Label iconLabel = new Label(item.getIcon());
-        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
 
         Label nameLabel = new Label(item.getName());
         nameLabel.setWrapText(true);
-        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
 
         Label descLabel = new Label(item.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setFont(Font.font("System",FontWeight.BOLD, 13));
+        descLabel.setFont(Font.font("System",FontWeight.BOLD, 18));
         descLabel.setTextFill(Color.GRAY);
 
         Label priceLabel = new Label(String.format("$%.2f", item.getPrice()));
@@ -114,7 +114,7 @@ public class POSView {
 
         Button tile = new Button();
         tile.setGraphic(content);
-        tile.setPrefSize(170, 180);
+        tile.setPrefSize(240, 240);
         tile.setWrapText(true);
         tile.setDisable(item.getStock() <= 0);
         tile.setOnAction(e -> addToCart(item));
@@ -141,17 +141,17 @@ public class POSView {
 
         Button voidSaleBtn = new Button("Void Entire Sale");
         voidSaleBtn.setMaxWidth(Double.MAX_VALUE);
-        voidSaleBtn.setStyle("-fx-background-color: #e0554f; -fx-text-fill: white; -fx-font-weight: bold");
+        voidSaleBtn.setStyle("-fx-background-color: #e0554f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 24px");
         voidSaleBtn.setOnAction(e -> voidSale());
 
         Button checkoutCashBtn = new Button("Checkout - Cash");
         checkoutCashBtn.setMaxWidth(Double.MAX_VALUE);
-        checkoutCashBtn.setStyle("-fx-background-color: #2c5f2d; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px");
+        checkoutCashBtn.setStyle("-fx-background-color: #2c5f2d; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 24px");
         checkoutCashBtn.setOnAction(e -> checkout("Cash"));
 
         Button checkoutEftposBtn = new Button("Checkout - EFTPOS");
         checkoutEftposBtn.setMaxWidth(Double.MAX_VALUE);
-        checkoutEftposBtn.setStyle("-fx-background-color: #2c5f2d; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px");
+        checkoutEftposBtn.setStyle("-fx-background-color: #2c5f2d; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 24px");
         checkoutEftposBtn.setOnAction(e -> checkout("EFTPOS"));
 
         VBox panel = new VBox(10,

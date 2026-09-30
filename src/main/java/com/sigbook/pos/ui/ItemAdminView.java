@@ -114,7 +114,7 @@ public class ItemAdminView {
 
         Label descLabel = new Label(item.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setFont(Font.font("System",FontWeight.BOLD, 13));
+        descLabel.setFont(Font.font("System",FontWeight.BOLD, 20));
         descLabel.setTextFill(Color.GRAY);
 
         Label priceLabel = new Label(String.format("$%.2f", item.getPrice()));
@@ -129,7 +129,7 @@ public class ItemAdminView {
 
         Button tile = new Button();
         tile.setGraphic(content);
-        tile.setPrefSize(170, 180);
+        tile.setPrefSize(240, 180);
         tile.setWrapText(true);
         tile.setDisable(item.getStock() <= 0);
         return tile;

@@ -48,7 +48,7 @@ public class ItemAdminView {
         //Toolbar
         Button addBtn = new Button ("Add Item");
 
-        Button deleteBtn = new Button("Delete Selected");
+
 
         Button backBtn = new Button("Back to POS");
         backBtn.setOnAction(e -> onBackClicked());
@@ -58,9 +58,8 @@ public class ItemAdminView {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Button saveChanges = new Button ("Save");
 
-        HBox toolbar = new HBox(10, backBtn, addBtn, deleteBtn, spacer, saveChanges);
+        HBox toolbar = new HBox(10, backBtn, addBtn, spacer);
         toolbar.setAlignment(Pos.CENTER_LEFT);
         toolbar.setPadding(new Insets(0, 0, 12, 0));
 
@@ -73,6 +72,10 @@ public class ItemAdminView {
 
         root.setPadding(new Insets(16));
 
+        VBox detailsPanel = buildDetailsPanel();
+        detailsPanel.setPrefWidth(340);
+        BorderPane.setMargin(detailsPanel, new Insets(0, 0, 0, 16));
+        root.setRight(detailsPanel);
 
         refreshTable();
         //item grid
@@ -86,7 +89,12 @@ public class ItemAdminView {
         refreshItemGrid();
 
         //Set maximised
-        stage.setMaximized(true);
+        javafx.stage.Screen screen = javafx.stage.Screen.getPrimary();
+        javafx.geometry.Rectangle2D bounds = screen.getVisualBounds();
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+        stage.setWidth(bounds.getWidth());
+        stage.setHeight(bounds.getHeight());
         return new Scene(root);
     }
 
@@ -106,15 +114,15 @@ public class ItemAdminView {
     }
     private Button buildItemTile(Item item) {
         Label iconLabel = new Label(item.getIcon());
-        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
 
         Label nameLabel = new Label(item.getName());
         nameLabel.setWrapText(true);
-        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
 
         Label descLabel = new Label(item.getDescription());
         descLabel.setWrapText(true);
-        descLabel.setFont(Font.font("System",FontWeight.BOLD, 20));
+        descLabel.setFont(Font.font("System",FontWeight.BOLD, 18));
         descLabel.setTextFill(Color.GRAY);
 
         Label priceLabel = new Label(String.format("$%.2f", item.getPrice()));
@@ -129,10 +137,36 @@ public class ItemAdminView {
 
         Button tile = new Button();
         tile.setGraphic(content);
-        tile.setPrefSize(240, 180);
+        tile.setPrefSize(240, 240);
         tile.setWrapText(true);
         tile.setDisable(item.getStock() <= 0);
+        tile.setOnAction(e -> selectItem(item));
         return tile;
+    }
+    private VBox buildDetailsPanel(){
+        Label panelHeading = new Label("Details");
+        panelHeading.setFont(Font.font("System", FontWeight.BOLD, 22));
+
+        VBox form = new VBox(10,
+                new Label("Name"), nameField,
+                new Label("Description"), descriptionField,
+                new Label("Icon"), iconField,
+                new Label("Price"), priceField,
+                new Label("Stock"), stockField);
+
+        Button saveBtn = new Button("Save");
+        saveBtn.setMaxWidth(Double.MAX_VALUE);
+        saveBtn.setOnAction(e -> onSaveClicked());
+
+        Button deleteBtn = new Button("Delete");
+        deleteBtn.setMaxWidth(Double.MAX_VALUE);
+        deleteBtn.setOnAction(e -> onDeleteClicked());
+
+        VBox panel = new VBox(10, panelHeading, form, saveBtn, deleteBtn);
+        panel.setPadding(new Insets(12));
+        panel.setStyle("-fx-background-color: #f7f6f0; -fx-background-radius: 10;");
+        return panel;
+
     }
 
     private void onSaveClicked() {
@@ -153,6 +187,14 @@ public class ItemAdminView {
         // Worth thinking about: should deleting an item that appears in past
         // sale_lines actually be allowed? (sale_lines stores item_name as its
         // own copy already, precisely so old receipts don't break if you do)
+    }
+    private void selectItem(Item item) {
+        selectedItem = item;
+        nameField.setText(item.getName());
+        descriptionField.setText(item.getDescription());
+        iconField.setText(item.getIcon());
+        priceField.setText(String.valueOf(item.getPrice()));
+        stockField.setText(String.valueOf(item.getStock()));
     }
 
     private void clearForm() {

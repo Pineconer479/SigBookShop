@@ -4,6 +4,7 @@ import com.sigbook.pos.db.ItemDao;
 import com.sigbook.pos.db.SaleDao;
 import com.sigbook.pos.model.CartLine;
 import com.sigbook.pos.model.Item;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -72,7 +73,12 @@ public class POSView {
         root.setRight(cartPanel);
 
         //Set maximised
-        stage.setMaximized(true);
+        javafx.stage.Screen screen = javafx.stage.Screen.getPrimary();
+        javafx.geometry.Rectangle2D bounds = screen.getVisualBounds();
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+        stage.setWidth(bounds.getWidth());
+        stage.setHeight(bounds.getHeight());
         return new Scene(root);
     }
 
@@ -247,15 +253,15 @@ public class POSView {
             }
 
             Label name = new Label(line.getItem().getName());
-            name.setFont(Font.font("System", FontWeight.BOLD, 16));
-            name.setPrefWidth(130);
+            name.setFont(Font.font("System", FontWeight.BOLD, 26));
+            name.setPrefWidth(180);
             name.setWrapText(true);
 
             Button minus = new Button("-");
             Button plus = new Button("+");
             Label qty = new Label(String.valueOf(line.getQuantity()));
-            qty.setFont(Font.font(16));
-            qty.setPrefWidth(20);
+            qty.setFont(Font.font(18));
+            qty.setPrefWidth(26);
             qty.setAlignment(Pos.CENTER);
 
             minus.setOnAction(e -> {
@@ -277,15 +283,15 @@ public class POSView {
                 updateTotals();
             });
             Label lineTotal = new Label(String.format("$%.2f", line.getLineTotal()));
-            lineTotal.setFont(Font.font(16));
+            lineTotal.setFont(Font.font(18));
             lineTotal.setPrefWidth(60);
             lineTotal.setAlignment(Pos.CENTER_RIGHT);
 
             Button remove = new Button("x");
-            remove.setStyle("-fx-text-fill: #e0554f; -fx-font-weight: bold;");
+            remove.setStyle("-fx-text-fill: #e0554f; -fx-font-weight: bold; -fx-font-size: 18px");
             remove.setOnAction(e -> removeFromCart(line));
 
-            HBox row = new HBox(6, name, minus, qty, plus, lineTotal, remove);
+            HBox row = new HBox(46, name, minus, qty, plus, lineTotal, remove);
             row.setAlignment(Pos.CENTER_LEFT);
             setGraphic(row);
         }

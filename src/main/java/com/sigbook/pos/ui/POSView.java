@@ -38,21 +38,20 @@ public class POSView {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(16));
 
-
-
         // Toolbar
         Button adminBtn = new Button ("Admin");
+        adminBtn.setFont(Font.font("System", 30));
         adminBtn.setOnAction(e -> onAdminClicked());
 
         HBox toolbar = new HBox( 10, adminBtn);
-        toolbar.setAlignment(Pos.CENTER_LEFT);
+        toolbar.setAlignment(Pos.CENTER_RIGHT);
         toolbar.setPadding(new Insets(0, 0, 12, 0));
 
         Label heading = new Label("Sig Bookshop POS");
-        heading.setFont(Font.font("System", FontWeight.BOLD, 20));
+        heading.setFont(Font.font("System", FontWeight.BOLD, 30));
         BorderPane.setMargin(heading, new Insets(0, 0, 12, 0));
 
-        VBox topSection = new VBox(8, heading, toolbar);
+        HBox topSection = new HBox(1300, heading, toolbar);
         root.setTop(topSection);
 
         //item grid

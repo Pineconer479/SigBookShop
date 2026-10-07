@@ -47,10 +47,12 @@ public class ItemAdminView {
 
         //Toolbar
         Button addBtn = new Button ("Add Item");
+        addBtn.setFont(Font.font("System", 20));
 
 
 
-        Button backBtn = new Button("Back to POS");
+        Button backBtn = new Button("Return");
+        backBtn.setFont(Font.font("System", 20));
         backBtn.setOnAction(e -> onBackClicked());
 
         //Empty region
@@ -64,16 +66,16 @@ public class ItemAdminView {
         toolbar.setPadding(new Insets(0, 0, 12, 0));
 
         Label heading = new Label("Admin Menu");
-        heading.setFont(Font.font("System", FontWeight.BOLD, 20));
+        heading.setFont(Font.font("System", FontWeight.BOLD, 30));
         BorderPane.setMargin(heading, new Insets(0, 0, 12, 0));
 
-        VBox topSection = new VBox(8, heading, toolbar);
+        HBox topSection = new HBox(1300, heading, toolbar);
         root.setTop(topSection);
 
         root.setPadding(new Insets(16));
 
         VBox detailsPanel = buildDetailsPanel();
-        detailsPanel.setPrefWidth(340);
+        detailsPanel.setPrefWidth(620);
         BorderPane.setMargin(detailsPanel, new Insets(0, 0, 0, 16));
         root.setRight(detailsPanel);
 
@@ -112,6 +114,7 @@ public class ItemAdminView {
             itemGrid.getChildren().add(buildItemTile(item));
         }
     }
+    // Item tile
     private Button buildItemTile(Item item) {
         Label iconLabel = new Label(item.getIcon());
         iconLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
@@ -139,26 +142,38 @@ public class ItemAdminView {
         tile.setGraphic(content);
         tile.setPrefSize(240, 240);
         tile.setWrapText(true);
-        tile.setDisable(item.getStock() <= 0);
         tile.setOnAction(e -> selectItem(item));
         return tile;
     }
+
+    // Details panel
     private VBox buildDetailsPanel(){
         Label panelHeading = new Label("Details");
-        panelHeading.setFont(Font.font("System", FontWeight.BOLD, 22));
-
-        VBox form = new VBox(10,
-                new Label("Name"), nameField,
-                new Label("Description"), descriptionField,
-                new Label("Icon"), iconField,
-                new Label("Price"), priceField,
-                new Label("Stock"), stockField);
+        panelHeading.setFont(Font.font("System", FontWeight.BOLD, 28));
+        Label nameLabel = new Label("Name");
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+        Label descriptionLabel = new Label("Description");
+        descriptionLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+        Label iconLabel = new Label("Icon");
+        iconLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+        Label priceLabel = new Label("Price");
+        priceLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+        Label stockLabel = new Label("Stock");
+        stockLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+        nameField.setFont(Font.font("System", 25));
+        descriptionField.setFont(Font.font("System", 25));
+        iconField.setFont(Font.font("System", 25));
+        priceField.setFont(Font.font("System", 25));
+        stockField.setFont(Font.font("System", 25));
+        VBox form = new VBox(10,nameLabel, nameField, descriptionLabel, descriptionField, iconLabel, iconField, priceLabel, priceField, stockLabel, stockField);
 
         Button saveBtn = new Button("Save");
+        saveBtn.setFont(Font.font("System", 30));
         saveBtn.setMaxWidth(Double.MAX_VALUE);
         saveBtn.setOnAction(e -> onSaveClicked());
 
         Button deleteBtn = new Button("Delete");
+        deleteBtn.setFont(Font.font("System", 30));
         deleteBtn.setMaxWidth(Double.MAX_VALUE);
         deleteBtn.setOnAction(e -> onDeleteClicked());
 

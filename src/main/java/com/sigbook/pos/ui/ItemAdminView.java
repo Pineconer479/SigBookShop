@@ -47,12 +47,12 @@ public class ItemAdminView {
 
         //Toolbar
         Button addBtn = new Button ("Add Item");
-        addBtn.setFont(Font.font("System", 20));
+        addBtn.setFont(Font.font("System", 30));
 
 
 
         Button backBtn = new Button("Return");
-        backBtn.setFont(Font.font("System", 20));
+        backBtn.setFont(Font.font("System", 30));
         backBtn.setOnAction(e -> onBackClicked());
 
         //Empty region
@@ -61,7 +61,7 @@ public class ItemAdminView {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
 
-        HBox toolbar = new HBox(10, backBtn, addBtn, spacer);
+        HBox toolbar = new HBox(10, backBtn, addBtn);
         toolbar.setAlignment(Pos.CENTER_LEFT);
         toolbar.setPadding(new Insets(0, 0, 12, 0));
 

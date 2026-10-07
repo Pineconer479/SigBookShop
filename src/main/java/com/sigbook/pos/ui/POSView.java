@@ -43,7 +43,11 @@ public class POSView {
         adminBtn.setFont(Font.font("System", 30));
         adminBtn.setOnAction(e -> onAdminClicked());
 
-        HBox toolbar = new HBox( 10, adminBtn);
+        Button reportsBtn = new Button ("Reports");
+        reportsBtn.setFont(Font.font("System", 30));
+        //reportsBtn.setOnAction(e -> onReportsClicked);
+
+        HBox toolbar = new HBox( 10, adminBtn, reportsBtn);
         toolbar.setAlignment(Pos.CENTER_RIGHT);
         toolbar.setPadding(new Insets(0, 0, 12, 0));
 
